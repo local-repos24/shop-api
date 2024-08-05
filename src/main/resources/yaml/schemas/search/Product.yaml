@@ -1,0 +1,22 @@
+Product:
+  type: object
+  description: Product Data
+  properties:
+    code:
+      type: integer
+    name:
+      type: string
+    store:
+      type: integer
+    available:
+      type: boolean
+    stock:
+      type: string
+    price:
+      type: object
+      items:
+        $ref: 'PriceInfo.yaml#/PriceInfo'
+    category:
+      type: string
+    articleType:
+      type: string

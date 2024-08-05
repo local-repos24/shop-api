@@ -1,0 +1,6 @@
+FacetInfo:
+  type: object
+  description: facet object values
+  properties:
+    name:
+      type: string

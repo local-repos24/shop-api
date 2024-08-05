@@ -1,0 +1,8 @@
+PriceInfo:
+  type: object
+  description: price information
+  properties:
+    price:
+      type: integer
+    range:
+      type: string

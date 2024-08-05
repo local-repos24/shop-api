@@ -1,0 +1,97 @@
+openapi: "3.0.2"
+info:
+  version: 1.0.0
+  title: Products Service
+  description: Products Store
+paths:
+  /shop/products:
+    get:
+      summary: List all products
+      operationId: list-products
+      tags:
+        - products
+      responses:
+        200:
+          description: "Results"
+          content:
+            "application/json":
+              schema:
+                $ref: '../schemas/Result.yaml#/Result'
+    post:
+      summary: Save a Product
+      operationId: save-product
+      tags:
+        - product
+      requestBody:
+        description: save a product
+        required: true
+        content:
+          "application/json":
+            schema:
+              $ref: '../schemas/search/Product.yaml#/Product'
+      responses:
+        '201':
+          description: Saved
+          content:
+            "application/json":
+              schema:
+                $ref: '../schemas/Result.yaml#/Result'
+
+  /shop/products/{productId}:
+    get:
+      summary: Get a product by id
+      operationId: list-product-by-id
+      tags:
+        - products
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Get a product by id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../schemas/Result.yaml#/Result'
+    put:
+      summary: Update a product by id
+      operationId: update-product-by-id
+      tags:
+        - products
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Update product by id
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../schemas/Result.yaml#/Result'
+    delete:
+      summary: Soft delete by id
+      operationId: delete-product-by-id
+      tags:
+        - products
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Delete a product by id
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '../schemas/Result.yaml#/Result'

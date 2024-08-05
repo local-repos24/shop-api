@@ -1,0 +1,14 @@
+Result:
+  type: object
+  properties:
+    stockLevel:
+      type: integer
+      example: 12
+    facets:
+      type: array
+      items:
+        $ref: 'search/Facets.yaml#/Facets'
+    products:
+      type: array
+      items:
+        $ref: 'search/Product.yaml#/Product'

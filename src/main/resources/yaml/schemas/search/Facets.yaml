@@ -1,0 +1,12 @@
+Facets:
+  type: object
+  description: facets
+  properties:
+    name:
+      type: string
+    facetValues:
+      type: object
+      items:
+        $ref: 'FacetInfo.yaml#/FacetInfo'
+    code:
+      type: string
