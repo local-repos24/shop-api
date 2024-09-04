@@ -53,6 +53,7 @@ public class ProductMapper {
                 .stock(product.getStock())
                 .availability(product.getAvailability())
                 .season_code(product.getSeason_code())
+                .last_update(product.getLast_update())
                 .build();
 
         if(ObjectUtils.isNotEmpty(product.getCategory())){
