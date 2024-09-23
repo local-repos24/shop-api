@@ -5,6 +5,7 @@ import com.shop.dashboard.dto.request.CategoryRequestDTO;
 
 import com.shop.dashboard.dto.response.CategoryResponseDTO;
 import com.shop.dashboard.service.CrudService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/dashboard/categories")
+@Slf4j
 public class CategoryController {
 
     @Qualifier("categoryServiceImpl")
@@ -36,6 +38,7 @@ public class CategoryController {
     @PostMapping("/")
     public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO categoryRequestDTO){
         CategoryResponseDTO responseDTO = categoryService.save(categoryRequestDTO);
+        log.info(String.valueOf(categoryRequestDTO));
         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
     }
 
