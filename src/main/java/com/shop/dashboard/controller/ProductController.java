@@ -3,6 +3,7 @@ package com.shop.dashboard.controller;
 import com.shop.dashboard.dto.request.ProductRequestDTO;
 import com.shop.dashboard.dto.response.ProductResponseDTO;
 import com.shop.dashboard.service.CrudService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 @RequestMapping("/api/dashboard/products")
+@Slf4j
 public class ProductController{
 
     @Qualifier("productServiceImpl")
@@ -20,6 +22,7 @@ public class ProductController{
     }
     @PostMapping("/")
     public ResponseEntity<ProductResponseDTO> saveProduct(@RequestBody ProductRequestDTO product){
+        log.info("Request: {}", product);
         ProductResponseDTO response = productService.save(product);
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
