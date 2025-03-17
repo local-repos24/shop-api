@@ -15,9 +15,11 @@ import java.util.Date;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String code_string;
+
+    @Column(name = "code_string")
+    private String codeString;
     private String description;
     private String name;
     private String price;
@@ -25,9 +27,11 @@ public class Product {
     private int level;
     private String article_type;
     private String img;
-    private int model_number;
+
+    @Column(name = "model_number")
+    private int modelNumber;
     private String brand;
-    private boolean enable;
+    private byte enable;
     /*agregar timestamp a entity category
      * cuando existen datos ya creados en la tabla puede dar error zero date
      * al agregar el timestamp, una forma de solucionar seria borrar manualmente
@@ -43,7 +47,7 @@ public class Product {
         last_update=new Date();
     }
 
-    private int stock;
+    private int stock = 0;
     private String availability;
     private String season_code;
 

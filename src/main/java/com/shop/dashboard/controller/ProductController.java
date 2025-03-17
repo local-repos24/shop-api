@@ -1,9 +1,11 @@
 package com.shop.dashboard.controller;
 
 import com.shop.dashboard.dto.request.ProductRequestDTO;
-import com.shop.dashboard.dto.response.ProductResponseDTO;
+import com.shop.dashboard.dto.response.ProductResponse;
+import com.shop.commons.data.ResponseDTO;
 import com.shop.dashboard.service.CrudService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,38 +18,54 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController{
 
     @Qualifier("productServiceImpl")
-    private final CrudService<ProductResponseDTO, ProductRequestDTO> productService;
-    public ProductController( @Qualifier("productServiceImpl") CrudService<ProductResponseDTO, ProductRequestDTO> productService){
+    private final CrudService<ResponseDTO<ProductResponse>, ProductRequestDTO> productService;
+    public ProductController( @Qualifier("productServiceImpl") CrudService<ResponseDTO<ProductResponse>, ProductRequestDTO> productService){
         this.productService = productService;
     }
     @PostMapping("/")
-    public ResponseEntity<ProductResponseDTO> saveProduct(@RequestBody ProductRequestDTO product){
-        log.info("Request: {}", product);
-        ProductResponseDTO response = productService.save(product);
+    public ResponseEntity<ResponseDTO<ProductResponse>> saveProduct(@RequestBody ProductRequestDTO product){
+        ResponseDTO<ProductResponse> response = productService.save(product);
+        if(ObjectUtils.isNotEmpty(response.getErrors())){
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
 
     @GetMapping("/")
-    public ResponseEntity<ProductResponseDTO> listProducts(){
-        ProductResponseDTO response = productService.getAll();
+    public ResponseEntity<ResponseDTO<ProductResponse>> listProducts(@RequestParam(required = false) String query,
+                                                           @RequestParam(required = false) String sort,
+                                                           @RequestParam(defaultValue = "1") Integer page,
+                                                           @RequestParam(defaultValue = "10") Integer pageSize){
+        ResponseDTO<ProductResponse> response = productService.getAll(query, sort, page, pageSize);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable String id) {
-        ProductResponseDTO response = productService.getById(Long.valueOf(id));
+    public ResponseEntity<ResponseDTO<ProductResponse>> getProductById(@PathVariable String id) {
+        ResponseDTO<ProductResponse> response = productService.getById(Long.valueOf(id));
+        if(ObjectUtils.isNotEmpty(response.getErrors())){
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> deleteProductById(@PathVariable Integer id) {
-        ProductResponseDTO response = productService.delete(Long.valueOf(id));
+    public ResponseEntity<ResponseDTO<ProductResponse>> deleteProductById(@PathVariable Integer id) {
+        ResponseDTO<ProductResponse> response = productService.delete(Long.valueOf(id));
+        if(ObjectUtils.isNotEmpty(response)){
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/")
-    public ResponseEntity<ProductResponseDTO> updateProductById(@RequestBody ProductRequestDTO product) {
-        ProductResponseDTO response = productService.update(product);
+    public ResponseEntity<ResponseDTO<ProductResponse>> updateProductById(@RequestBody ProductRequestDTO product) {
+        ResponseDTO<ProductResponse> response = productService.update(product);
+        if(ObjectUtils.isNotEmpty(response.getErrors())){
+            return (response.getCodeStatus() == HttpStatus.BAD_REQUEST.value())
+                    ? new ResponseEntity<>(response, HttpStatus.BAD_REQUEST)
+                    : new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

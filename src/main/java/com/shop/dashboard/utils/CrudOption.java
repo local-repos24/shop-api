@@ -1,4 +1,4 @@
-package com.shop.dashboard.util;
+package com.shop.dashboard.utils;
 
 public enum CrudOption {
     SAVE,

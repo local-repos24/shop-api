@@ -12,21 +12,25 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name="category")
+@Table(name="categories")
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name="name")
     private String name;
 
     @Column(name="is_enable")
-    private boolean isEnable;
+    private byte enabled;
 
     @Column(name="category_code")
     private String categoryCode;
+
+    @Column(name="is_deleted")
+    private byte Deleted;
 
     @OneToMany(mappedBy = "category")
     private List<Product> products = new ArrayList<>();
