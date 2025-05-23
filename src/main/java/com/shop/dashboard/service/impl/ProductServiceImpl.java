@@ -57,6 +57,7 @@ public class ProductServiceImpl implements CrudService<ResponseDTO<ProductRespon
         Pagination pagination = getPagination(pagedResult);
         responseDTO.setMessage("success");
         responseDTO.setPagination(pagination);
+        responseDTO.setCodeStatus(200);
         return responseDTO;
     }
 
@@ -106,6 +107,7 @@ public class ProductServiceImpl implements CrudService<ResponseDTO<ProductRespon
         }
 
         responseDTO = new ResponseDTO<>("success", productMapper.entityToDTO(product.get()));
+        responseDTO.setCodeStatus(200);
         return responseDTO;
     }
 
@@ -123,6 +125,7 @@ public class ProductServiceImpl implements CrudService<ResponseDTO<ProductRespon
 
         productRepository.delete(product.get());
         responseDTO = new ResponseDTO<>("success", null);
+        responseDTO.setCodeStatus(200);
         return responseDTO;
     }
 
@@ -167,6 +170,7 @@ public class ProductServiceImpl implements CrudService<ResponseDTO<ProductRespon
         }
 
         responseDTO = new ResponseDTO<>("success", productMapper.entityToDTO(productRepository.save(productEntity)));
+        responseDTO.setCodeStatus(200);
         return responseDTO;
     }
 

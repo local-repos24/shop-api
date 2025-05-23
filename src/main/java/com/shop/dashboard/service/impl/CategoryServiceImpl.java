@@ -57,6 +57,7 @@ public class CategoryServiceImpl implements CrudService<ResponseDTO<CategoryResp
         Pagination pagination = getPagination(pagedResult);
         responseDTO.setPagination(pagination);
         responseDTO.setMessage("success");
+        responseDTO.setCodeStatus(200);
         return responseDTO;
     }
 
@@ -78,6 +79,7 @@ public class CategoryServiceImpl implements CrudService<ResponseDTO<CategoryResp
                 categoryMapper.entityToDTO(categoryRepository.save(
                         categoryMapped
                 )));
+        responseDTO.setCodeStatus(200);
         return responseDTO;
     }
 
@@ -94,6 +96,7 @@ public class CategoryServiceImpl implements CrudService<ResponseDTO<CategoryResp
         }
 
         responseDTO.setResponseDTO(categoryMapper.entityToDTO(categoryRepository.findById(id).get()));
+        responseDTO.setCodeStatus(200);
         return responseDTO;
     }
 
@@ -145,6 +148,7 @@ public class CategoryServiceImpl implements CrudService<ResponseDTO<CategoryResp
         if(ObjectUtils.isNotEmpty(categoryUpdated)){
             responseDTO.setResponseDTO(categoryMapper.entityToDTO(categoryUpdated));
             responseDTO.setMessage("success");
+            responseDTO.setCodeStatus(200);
         }
         return responseDTO;
     }
