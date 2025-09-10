@@ -16,9 +16,9 @@ public class ProductMapper {
 
     private final CategoryMapper categoryMapper;
     public Product ProductDTOToEntity(ProductRequestDTO productRequestDTO){
-        Product product = Product.builder()
+        Product.ProductBuilder product = Product.builder()
                 .id(productRequestDTO.getId())
-                .code_string(productRequestDTO.code_string)
+                .codeString(productRequestDTO.code_string)
                 .description(productRequestDTO.getDescription())
                 .name(productRequestDTO.name)
                 .price(productRequestDTO.price)
@@ -26,20 +26,22 @@ public class ProductMapper {
                 .level(productRequestDTO.level)
                 .article_type(productRequestDTO.article_type)
                 .img(productRequestDTO.img)
-                .model_number(productRequestDTO.model_number)
+                .modelNumber(productRequestDTO.model_number)
                 .brand(productRequestDTO.brand)
-                .enable(productRequestDTO.enable)
                 .stock(productRequestDTO.stock)
                 .availability(productRequestDTO.availability)
-                .season_code(productRequestDTO.season_code)
-                .build();
-        return product;
+                .season_code(productRequestDTO.season_code);
+
+        if(ObjectUtils.isNotEmpty(productRequestDTO.isEnable())){
+            product.enable((productRequestDTO.isEnable()) ? (byte) 1 :(byte) 0);
+        }
+        return product.build();
     }
 
     public ProductResponse entityToDTO(Product product){
-        ProductResponse productResponseDTO = ProductResponse.builder()
+        ProductResponse.ProductResponseBuilder productResponseDTO = ProductResponse.builder()
                 .id(product.getId())
-                .code_string(product.getCode_string())
+                .code_string(product.getCodeString())
                 .description(product.getDescription())
                 .name(product.getName())
                 .price(product.getPrice())
@@ -47,19 +49,20 @@ public class ProductMapper {
                 .level(product.getLevel())
                 .article_type(product.getArticle_type())
                 .img(product.getImg())
-                .model_number(product.getModel_number())
+                .model_number(product.getModelNumber())
                 .brand(product.getBrand())
-                .enable(product.isEnable())
                 .stock(product.getStock())
                 .availability(product.getAvailability())
                 .season_code(product.getSeason_code())
-                .last_update(product.getLast_update())
-                .build();
+                .last_update(product.getLast_update());
 
-        if(ObjectUtils.isNotEmpty(product.getCategory())){
-            productResponseDTO.setCategory(categoryMapper.entityToDTO(product.getCategory()));
+        if(ObjectUtils.isNotEmpty(product.getEnable())){
+            productResponseDTO.enable(product.getEnable() == 1);
         }
-        return productResponseDTO;
+        if(ObjectUtils.isNotEmpty(product.getCategory())){
+            productResponseDTO.category(categoryMapper.entityToDTO(product.getCategory()));
+        }
+        return productResponseDTO.build();
     }
 
     public List<ProductResponse> entityToDTOList(List<Product> productList){

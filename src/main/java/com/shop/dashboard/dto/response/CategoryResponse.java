@@ -11,5 +11,6 @@ public class CategoryResponse {
     private String name;
     private boolean isEnable;
     private String categoryCode;
+    private boolean isDeleted;
 
 }

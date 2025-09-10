@@ -1,7 +1,6 @@
 package com.shop.dashboard.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.shop.commons.data.RequestType;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,5 +14,4 @@ public class CategoryRequestDTO {
 
     @JsonProperty("category_code")
     private String categoryCode;
-    private RequestType requestType;
 }
